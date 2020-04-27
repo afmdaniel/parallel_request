@@ -8,7 +8,7 @@ defmodule ParallelRequest.CLI do
     receive do
       {:response, resp} -> resp |> Poison.encode!() |> IO.puts()
     after
-      10_000 -> IO.puts("{status_code: 401}")
+      10_000 -> IO.puts("{\"status_code\": 401}")
     end
   end
 end
