@@ -23,9 +23,11 @@ defmodule ParallelRequest do
 
   def handle_info({:request, url, from}, state) do
     value = HTTPoison.get!(url)
+    status_code = value.status_code
+    body = value.body
 
-    if value.status_code == 200 do
-      send(from, {:response, value.body})
+    if status_code == 200 do
+      send(from, {:response, %{status_code: status_code, body: body}})
     else
       send(from, {:error})
     end

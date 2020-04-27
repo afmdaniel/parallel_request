@@ -6,9 +6,9 @@ defmodule ParallelRequest.CLI do
     |> Enum.map(fn url -> send(ParallelRequest, {:request, url, self()}) end)
 
     receive do
-      {:response, body} -> IO.puts(body)
+      {:response, resp} -> resp |> Poison.encode!() |> IO.puts()
     after
-      10_000 -> "Nada em 10s"
+      10_000 -> IO.puts("{status_code: 401}")
     end
   end
 end
